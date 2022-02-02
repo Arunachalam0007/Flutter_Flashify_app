@@ -1,5 +1,11 @@
-import 'package:flashify_app/pages/splash_page.dart';
+
 import 'package:flutter/material.dart';
+
+// Packages
+import '../pages/login_page.dart';
+import '../pages/splash_page.dart';
+import '../services/navigation_service.dart';
+
 
 void main() {
   runApp(
@@ -27,6 +33,11 @@ class MainApp extends StatelessWidget {
           backgroundColor: Color.fromRGBO(30,29,37,1.0),
         ),
       ),
+      routes: {
+        '/login': (context) => LoginPage(),
+      },
+      initialRoute: '/login',
+      navigatorKey: NavigationService.navigatorKey,
     );
   }
 }
