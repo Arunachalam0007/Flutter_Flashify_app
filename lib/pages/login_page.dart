@@ -1,8 +1,17 @@
+// Packages
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:get_it/get_it.dart';
 
 // Widgets
 import '../widgets/custom_input_field.dart';
 import '../widgets/rounded_button.dart';
+
+// Providers
+import '../providers/authentication_provider.dart';
+
+// Services
+import '../services/navigation_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,17 +24,29 @@ class _LoginPageState extends State<LoginPage> {
   late double _deviceHeight;
   late double _deviceWidth;
 
+  late AuthenticationProvider _auth;
+  late NavigationService _navService;
+
+  String? _loginEmail;
+  String? _loginPassword;
+
   final _loginFormKey = GlobalKey<FormState>();
+
+  final _emailRegex = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
+  final _passwordRegex = r".{8,}";
 
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _navService =  GetIt.instance.get<NavigationService>();
     return _buildUI();
   }
 
   Widget _buildUI() {
     return Scaffold(
+
       body: Container(
         padding: EdgeInsets.symmetric(
           horizontal: _deviceWidth * 0.03,
@@ -59,9 +80,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _loginTitle() {
     return Container(
-      height: _deviceWidth * 0.10,
+      height: _deviceWidth * 0.15,
       child: const Text(
-        'Flshify',
+        '⚡Flshify⚡',
         style: TextStyle(
           fontSize: 40,
           color: Colors.white,
@@ -82,14 +103,20 @@ class _LoginPageState extends State<LoginPage> {
               CustomTextFormField(
                 obscureText: false,
                 hintText: 'Email',
-                regEx: '',
-                onSaved: (val) {},
+                regEx: _emailRegex,
+                onSaved: (_val) {
+                  setState(() {
+                    _loginEmail = _val;
+                  });
+                },
               ),
               CustomTextFormField(
                 obscureText: true,
                 hintText: 'Password',
-                regEx: '',
-                onSaved: (val) {},
+                regEx: _passwordRegex,
+                onSaved: (_val) {
+                  _loginPassword = _val;
+                },
               ),
             ],
           ),
@@ -101,7 +128,14 @@ class _LoginPageState extends State<LoginPage> {
       btnName: 'Login',
       height: _deviceHeight * 0.065,
       width: _deviceWidth * 0.65,
-      onPressed: () {},
+      onPressed: () {
+        if(_loginFormKey.currentState!.validate()){
+          // this will call onSaved call back in Form Children
+          _loginFormKey.currentState?.save();
+          print('EMail: ${_loginEmail} Password: $_loginPassword');
+          _auth.loginUsingEmailAndPassword(_loginEmail!, _loginPassword!);
+        }
+      },
     );
   }
 
@@ -109,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
     return GestureDetector(
       onTap: () {
         print('Don\'t Have an Account?');
+        _navService.navigateToRoute('/register');
       },
       child: Container(
         child: const Text(

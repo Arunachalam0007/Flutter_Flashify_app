@@ -1,11 +1,19 @@
-
-import 'package:flutter/material.dart';
-
 // Packages
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// Pages
 import '../pages/login_page.dart';
 import '../pages/splash_page.dart';
+import '../pages/home_page.dart';
+import '../pages/register_page.dart';
+
+// Services
 import '../services/navigation_service.dart';
 
+
+// Providers
+import '../providers/authentication_provider.dart';
 
 void main() {
   runApp(
@@ -24,20 +32,27 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Main Page',
-      theme: ThemeData(
-        backgroundColor: Color.fromRGBO(36, 35, 49, 1.0),
-        scaffoldBackgroundColor: Color.fromRGBO(36, 35, 49, 1.0),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Color.fromRGBO(30,29,37,1.0),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Main Page',
+        theme: ThemeData(
+          backgroundColor: Color.fromRGBO(36, 35, 49, 1.0),
+          scaffoldBackgroundColor: Color.fromRGBO(36, 35, 49, 1.0),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: Color.fromRGBO(30,29,37,1.0),
+          ),
         ),
+        routes: {
+          '/login': (context) => LoginPage(),
+          '/register': (context) => RegisterPage(),
+          '/home' : (context) => HomePage(),
+        },
+        initialRoute: '/login',
+        navigatorKey: NavigationService.navigatorKey,
       ),
-      routes: {
-        '/login': (context) => LoginPage(),
-      },
-      initialRoute: '/login',
-      navigatorKey: NavigationService.navigatorKey,
     );
   }
 }
