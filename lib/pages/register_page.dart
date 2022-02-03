@@ -2,14 +2,14 @@
 import 'package:flashify_app/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 // Services
 import '../services/media_service.dart';
-import '../services/media_service.dart';
+import '../services/database_service.dart';
 import '../services/cloud_storage_service.dart';
+import '../services/navigation_service.dart';
 
 //Widgets
 
@@ -28,23 +28,32 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  @override
   late double _deviceHeight;
   late double _deviceWidth;
+  late AuthenticationProvider _auth;
+  late CloudStorageService _storageService;
+  late DatabaseService _databaseService;
+  late NavigationService _navigationService;
+
   PlatformFile? _profileImage;
   final _regFormKey = GlobalKey<FormState>();
 
-  String? name;
-  String? email;
-  String? pass;
+  String? _name;
+  String? _email;
+  String? _pass;
 
   final _emailRegex =
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$";
   final _passwordRegex = r".{8,}";
 
+  @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _storageService = GetIt.instance.get<CloudStorageService>();
+    _databaseService = GetIt.instance.get<DatabaseService>();
+    _navigationService = GetIt.instance.get<NavigationService>();
     return _buildUI();
   }
 
@@ -119,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
             CustomTextFormField(
               onSaved: (_val) {
                 setState(() {
-                  name = _val;
+                  _name = _val;
                 });
               },
               regEx: r'.{3,}',
@@ -129,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
             CustomTextFormField(
               onSaved: (_val) {
                 setState(() {
-                  email = _val;
+                  _email = _val;
                 });
               },
               regEx: _emailRegex,
@@ -139,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
             CustomTextFormField(
               onSaved: (_val) {
                 setState(() {
-                  pass = _val;
+                  _pass = _val;
                 });
               },
               regEx: _passwordRegex,
@@ -152,12 +161,34 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _regBtn(){
-    return RoundedButton(height: _deviceHeight * 0.065, width: _deviceWidth * 0.65, btnName: 'Register', onPressed: (){
-      if(_regFormKey.currentState!.validate()){
-        _regFormKey.currentState!.save();
-        print('Name: $name, Email: $email, Pass: $pass');
-      }
-    });
+  Widget _regBtn() {
+    return RoundedButton(
+        height: _deviceHeight * 0.065,
+        width: _deviceWidth * 0.65,
+        btnName: 'Register',
+        onPressed: () async {
+          if (_regFormKey.currentState!.validate()) {
+
+            _regFormKey.currentState!.save();
+            String? _uid = await _auth.registerUserUsingEmailPassword(
+              _email!,
+              _pass!
+            );
+            String? _imageURL = await _storageService.saveUserImageToStorage(
+              _uid!,
+              _profileImage!
+            );
+            print('Image URL Val: $_imageURL');
+            await _databaseService.createUserData(
+              _uid,
+              _email!,
+              _name!,
+              _imageURL ?? ""
+            );
+            _navigationService.goBack();
+          } else {
+            print('Choose Image or Enter All the fileds');
+          }
+        });
   }
 }

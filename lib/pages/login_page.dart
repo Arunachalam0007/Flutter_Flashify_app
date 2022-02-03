@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       height: _deviceWidth * 0.15,
       child: const Text(
-        '⚡Flshify⚡',
+        '⚡Flashify⚡',
         style: TextStyle(
           fontSize: 40,
           color: Colors.white,

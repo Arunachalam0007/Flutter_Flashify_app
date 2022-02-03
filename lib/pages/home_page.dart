@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildUI(){
     return Scaffold(
-      backgroundColor: Colors.purple,
+     // backgroundColor: Colors.purple,
     );
   }
 }
