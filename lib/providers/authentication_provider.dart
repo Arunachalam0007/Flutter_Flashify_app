@@ -35,7 +35,6 @@ class AuthenticationProvider extends ChangeNotifier {
             'image': _userData['image'],
             'last_active': _userData['last_active'],
           });
-          print('chatUser Data: ${chatUser.getUserData()}');
           _navigationService.popAndNavigateToRoute('/home');
         });
       } else {
@@ -56,7 +55,6 @@ class AuthenticationProvider extends ChangeNotifier {
         email: _email,
         password: _password,
       );
-      print(_auth.currentUser);
     } on FirebaseAuthException {
       print('Error Logging User into Firebase');
     } catch (e) {

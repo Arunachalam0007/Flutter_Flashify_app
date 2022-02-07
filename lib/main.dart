@@ -34,7 +34,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AuthenticationProvider()),
+        ChangeNotifierProvider<AuthenticationProvider>(create: (context) => AuthenticationProvider()),
       ],
       child: MaterialApp(
         title: 'Main Page',
