@@ -43,6 +43,7 @@ class ChatsPageProvider extends ChangeNotifier {
     try{
       _chatStream =
           _db.getChatsBasedOnUserId(_auth.chatUser.uid).listen((_snapShot) async {
+
             // Future.Wait is used to return List of Chat instead of Iterable<>
             chats = await Future.wait(
               _snapShot.docs.map(
@@ -58,7 +59,7 @@ class ChatsPageProvider extends ChangeNotifier {
                     Map<String, dynamic> _user =
                     _userSnapshot.data() as Map<String, dynamic>;
                     _user['uid'] = _userSnapshot.id;
-                    _chatMembers.add(ChatUser.fromJSON(_user));
+                    _chatMembers.add(ChatUser.fromJSON(_user),);
                   }
 
                   // _chatData['members'].map((_memberId) async {
