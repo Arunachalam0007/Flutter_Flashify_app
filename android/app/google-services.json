@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "969104891215",
+    "project_id": "flashify-chat-flutter-app",
+    "storage_bucket": "flashify-chat-flutter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969104891215:android:a91db716e896f4ee45f93a",
+        "android_client_info": {
+          "package_name": "ak.co.flashify_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "969104891215-a88fb1h2fifgcpla7245cfutrk2096ha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB61_fivkvMIMRxTalpzaQAaPlWb-o6PRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "969104891215-a88fb1h2fifgcpla7245cfutrk2096ha.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "969104891215-ripuj8t51ifobd6s3uog8jtdrbd1rui2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ak.co.flashifyApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
