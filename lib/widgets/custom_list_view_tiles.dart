@@ -10,6 +10,36 @@ import '../widgets/message_bubbles.dart';
 import '../models/chat_message.dart';
 import '../models/chat_user.dart';
 
+class CustomUserListViewTile extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final String imageURL;
+  final bool isActive;
+  final bool isSelected;
+  final double height;
+  final VoidCallback onTap;
+
+  CustomUserListViewTile(
+      {required this.height,
+      required this.title,
+      required this.subTitle,
+      required this.imageURL,
+      required this.isActive,
+      required this.isSelected,
+      required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 18,),),
+      subtitle: Text(subTitle, style: TextStyle(color: Colors.white54, fontWeight: FontWeight.w400, fontSize: 12,),),
+      leading: RoundedImageNetworkWithStatusIndicator(key: UniqueKey(),size: height / 2,imagePath: imageURL,isActive: isActive,),
+      trailing: isSelected ? Icon(Icons.check, color: Colors.white,) : null,
+      onTap: onTap,
+    );
+  }
+}
+
 class CustomListViewTileWithActivity extends StatelessWidget {
   final String title;
   final String subTtile;

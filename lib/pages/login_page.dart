@@ -102,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               CustomTextFormField(
                 obscureText: false,
+                icon: Icons.email,
                 hintText: 'Email',
                 regEx: _emailRegex,
                 onSaved: (_val) {
@@ -112,6 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomTextFormField(
                 obscureText: true,
+                icon: Icons.lock_outline_sharp,
                 hintText: 'Password',
                 regEx: _passwordRegex,
                 onSaved: (_val) {

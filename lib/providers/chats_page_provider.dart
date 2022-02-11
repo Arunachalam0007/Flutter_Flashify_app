@@ -42,7 +42,7 @@ class ChatsPageProvider extends ChangeNotifier {
   void getChatData() async {
     try{
       _chatStream =
-          _db.getChatsBasedOnUserId(_auth.chatUser.uid).listen((_snapShot) async {
+          _db.getChatsBasedOnUserMemberId(_auth.chatUser.uid).listen((_snapShot) async {
 
             // Future.Wait is used to return List of Chat instead of Iterable<>
             chats = await Future.wait(

@@ -133,6 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               regEx: r'.{3,}',
               hintText: 'Name',
+              icon: Icons.drive_file_rename_outline,
               obscureText: false,
             ),
             CustomTextFormField(
@@ -143,6 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               regEx: _emailRegex,
               hintText: 'Email',
+              icon: Icons.email,
               obscureText: false,
             ),
             CustomTextFormField(
@@ -153,6 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               regEx: _passwordRegex,
               hintText: 'Password',
+              icon: Icons.lock_outline_sharp,
               obscureText: true,
             ),
           ],

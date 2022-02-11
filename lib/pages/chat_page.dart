@@ -188,6 +188,7 @@ class _ChatPageState extends State<ChatPage> {
       width: _deviceWidth * 0.65,
       child: CustomTextFormField(
         hintText: 'Type a Message',
+        icon: Icons.keyboard,
         obscureText: false,
         onSaved: (_val) {
           _pageProvider.message = _val;

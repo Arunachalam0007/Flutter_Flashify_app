@@ -43,9 +43,9 @@ class DatabaseService {
     }
   }
 
-  // Get Chats based on User Id
+  // Get Chats based on User Member Id
 
-  Stream<QuerySnapshot> getChatsBasedOnUserId(String _uid) {
+  Stream<QuerySnapshot> getChatsBasedOnUserMemberId(String _uid) {
     return _db
         .collection(CHAT_COLLECTION)
         .where('members', arrayContains: _uid)
@@ -105,4 +105,29 @@ class DatabaseService {
       print(e);
     }
   }
+
+
+
+  // Get All Users Data with names
+
+  Future<QuerySnapshot> getUsers (String? userName){
+    Query _query = _db.collection(USER_COLLECTION);
+    if(userName != null){
+      _query = _query.where('name', isGreaterThanOrEqualTo: userName)
+          .where('name', isLessThanOrEqualTo: userName + "z");
+    }
+    return _query.get();
+  }
+
+  // Create Chat
+
+  Future<DocumentReference?> createChat(Map<String,dynamic> _json) async{
+    try {
+      DocumentReference _docRef = await _db.collection(CHAT_COLLECTION).add(_json);
+      return _docRef;
+    }catch (e){
+      print('DEBUG: ERROR while creating a Chat: $e');
+    }
+  }
+
 }

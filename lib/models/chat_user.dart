@@ -1,3 +1,7 @@
+// Packages
+import 'package:timeago/timeago.dart' as timeago;
+
+
 class ChatUser {
   final String uid;
   final String email;
@@ -34,10 +38,11 @@ class ChatUser {
   }
 
   String lastDayActive() {
-    return '${lastActive.month}/${lastActive.day}/${lastActive.year}';
+    return '${timeago.format(lastActive)}';
   }
 
   bool wasRecentlyActive() {
     return DateTime.now().difference(lastActive).inHours < 2;
   }
+  
 }

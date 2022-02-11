@@ -134,6 +134,7 @@ class ChatPageProvider extends ChangeNotifier {
           _messageScrollListViewController.jumpTo(_messageScrollListViewController.position.maxScrollExtent);
         });
       });
+
     } catch (e) {
       print(e);
     }
